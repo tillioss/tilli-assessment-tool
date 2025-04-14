@@ -1,12 +1,12 @@
 'use client'
 import React from 'react'
-import Login from '@/app/components/login'
+import AngerAssessment from '@/app/components/AngerAssessment'
 
 export default function Page() {
   const isLoading = false
   return (
     <>
-      <title>Tilli | Login</title>
+      <title>Tilli | Assessment</title>
 
       <>
         {isLoading ? (
@@ -14,7 +14,7 @@ export default function Page() {
             Loading...
           </div>
         ) : (
-          <Login />
+          <AngerAssessment />
         )}
       </>
     </>

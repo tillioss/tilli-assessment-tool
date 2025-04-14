@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import Link from 'next/link'
-import Dropdown from '@/app/components/Dropdown'
 import { BackIcon, Divider, HamburgerIcon } from '@/assets/svg'
 import { usePathname } from 'next/navigation'
-import UserDropDown from '@/app/components/Navbar/components/UserDropDown'
+import UserDropDown from '@/app/components/navbar/components/UserDropDown'
 
 const Navbar = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false)

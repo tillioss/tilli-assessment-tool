@@ -1,5 +1,5 @@
 {
-  "name": "teachers-dashboard",
+  "name": "tilli-assessment-tool",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,8 +7,6 @@
     "dev:prod": "NEXT_PUBLIC_APP_ENV=production next dev",
     "build": "next build",
     "start": "next start",
-    "deploy:prod": "NEXT_PUBLIC_APP_ENV=production next build && firebase deploy --only hosting --project tilliunitymain",
-    "deploy:dev": "NEXT_PUBLIC_APP_ENV=development next build && firebase deploy --only hosting --project teachers-dashboard-dev",
     "lint": "next lint",
     "lint:fix": "eslint --fix .",
     "test": "jest"
