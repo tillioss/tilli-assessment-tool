@@ -27,11 +27,9 @@ const UserDropDown = () => {
   return (
     <div className="flex items-center relative justify-end" ref={dropdownRef}>
       <p
-        className="text-xl font-medium rounded-full p-2 cursor-pointer uppercase w-10 h-10 text-center text-white bg-pink-800"
+        className="text-xl font-medium rounded-full p-2 cursor-pointer uppercase w-10 h-10 text-center text-white "
         onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-      >
-        John
-      </p>
+      ></p>
 
       {isUserDropdownOpen && (
         <div className="absolute mt-64 rounded-xl shadow-lg bg-white w-80 z-40 p-2 border-primary-800 border-2">

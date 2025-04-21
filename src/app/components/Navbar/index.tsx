@@ -55,8 +55,6 @@ const Navbar = () => {
             <div className="opacity-25 fixed z-40 inset-0 bg-black"></div>
           </>
         ) : null}
-
-        <UserDropDown />
       </div>
     </div>
   )
