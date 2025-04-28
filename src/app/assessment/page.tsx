@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import AngerAssessment from '@/app/components/AngerAssessment'
+import AngerAssessment from '@/app/components/angerAssessment'
 
 export default function Page() {
   const isLoading = false

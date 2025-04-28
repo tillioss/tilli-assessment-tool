@@ -1,6 +1,8 @@
 'use client'
 import Link from 'next/link'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { ensureAnonymousSession, createParticipant } from '@/services/appwrite'
 
 export default function Page() {
   const [formData, setFormData] = useState({
@@ -24,6 +26,24 @@ export default function Page() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    try {
+      await ensureAnonymousSession()
+      const participant = await createParticipant(formData)
+      router.push(`/instructions?participantId=${participant.$id}`)
+    } catch (err) {
+      console.error(err)
+      setError('Failed to submit. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <section>
       <title>Tilli Assessment | Sign Up</title>
@@ -37,7 +57,10 @@ export default function Page() {
         </div>
       </div>
       <div className="mx-auto flex flex-col items-center justify-center px-6 md:py-8 lg:py-0 text-gray-500 overflow-auto">
-        <form className="rounded-xl p-4 md:w-1/2 mt-4 space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-xl p-4 md:w-1/2 mt-4 space-y-4"
+        >
           <p className="text-center text-base font-semibold text-gray-700">
             ONLY parents / guardians are supposed to fill this.
           </p>
@@ -146,14 +169,12 @@ export default function Page() {
           <div className="text-center mt-6">
             <button
               type="submit"
-              disabled={!formData.childName || !formData.parentName}
-              onClick={(e) => {
-                e.preventDefault()
-                console.log('Submitted:', formData)
-              }}
+              disabled={
+                !formData.childName || !formData.parentName || isLoading
+              }
               className="rounded-2xl bg-primary-700 px-6 py-2 font-medium text-white hover:bg-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800"
             >
-              Submit
+              {isLoading ? 'Submitting...' : 'Submit'}
             </button>
             {error && <p className="text-red-600 mt-2">{error}</p>}
           </div>

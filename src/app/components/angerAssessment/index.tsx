@@ -1,7 +1,28 @@
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { createAssessment } from '@/services/appwrite'
 import Progress from '@/app/components/progress'
 import Button from '@/app/components/button'
 import RadioGroup from '@/app/components/radioGroup'
+
+import q1Audio from '@/assets/audios/2.Anger_Question_1.mp3'
+import q2Audio from '@/assets/audios/3.Anger_Question_2.mp3'
+import q3Audio from '@/assets/audios/4.Anger_Question_3.mp3'
+import q4Audio from '@/assets/audios/5.Anger_Question_4.mp3'
+import q5Audio from '@/assets/audios/6.Anger_Question_5.mp3'
+import q6Audio from '@/assets/audios/7.Anger_Question_6.mp3'
+import q7Audio from '@/assets/audios/8.Anger_Question_7.mp3'
+import q8Audio from '@/assets/audios/9.Anger_Question_8.mp3'
+import q9Audio from '@/assets/audios/10.Anger_Question_9.mp3'
+import q10Audio from '@/assets/audios/11.Anger_Question_10.mp3'
+import q11Audio from '@/assets/audios/12.Anger_Question_11.mp3'
+import q12Audio from '@/assets/audios/13.Anger_Question_12.mp3'
+
+import hardlyAudio from '@/assets/audios/14.Anger_Option_Hardly.mp3'
+import sometimesAudio from '@/assets/audios/15.Anger_Option_Sometimes.mp3'
+import oftenAudio from '@/assets/audios/16.Anger_Option_Often.mp3'
+import dontKnowAudio from '@/assets/audios/17.Anger_Option_Don_t Know.mp3'
+import AudioIcon from '@/assets/svg/AudioIcon'
 
 const questions = [
   {
@@ -90,15 +111,52 @@ const answers = [
   { label: 'I do not know', value: '999' },
 ]
 
+const questionAudios = [
+  q1Audio,
+  q2Audio,
+  q3Audio,
+  q4Audio,
+  q5Audio,
+  q6Audio,
+  q7Audio,
+  q8Audio,
+  q9Audio,
+  q10Audio,
+  q11Audio,
+  q12Audio,
+]
+const answerAudios = [hardlyAudio, sometimesAudio, oftenAudio, dontKnowAudio]
+
 export default function AngerAssessment() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [responses, setResponses] = useState({})
+  const [responses, setResponses] = useState<Record<number, string>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const handleNext = () => {
+  const searchParams = useSearchParams()
+  const participantId = searchParams.get('participantId')
+
+  const handleNext = async () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
-      console.log('Submit responses', responses)
+      if (!participantId) {
+        console.error('Missing participantId')
+        return
+      }
+      setIsSubmitting(true)
+      try {
+        await createAssessment({
+          participantId,
+          responses: JSON.stringify(responses),
+          createdAt: new Date().toISOString(),
+        })
+        setHasSubmitted(true)
+      } catch (error) {
+        console.error('Error submitting assessment', error)
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -109,6 +167,22 @@ export default function AngerAssessment() {
     })
   }
 
+  if (isSubmitting) {
+    return (
+      <div className="h-64 flex items-center justify-center text-lg">
+        Submitting...
+      </div>
+    )
+  }
+
+  if (hasSubmitted) {
+    return (
+      <div className="h-64 flex items-center justify-center text-lg">
+        Thank you for completing the assessment.
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-md mx-auto">
       <div className="py-4 bg-primary-500">
@@ -117,7 +191,7 @@ export default function AngerAssessment() {
       <div className="max-w-md mx-auto p-4">
         <div className="bg-white p-4 rounded-lg">
           <div className="flex items-center justify-end mb-4">
-            <div className=" ">
+            <div>
               <img src="/angry.png" width={50} height={500} alt="logo" />
             </div>
           </div>
@@ -127,11 +201,23 @@ export default function AngerAssessment() {
             height={400}
             alt="image"
           />
+          <div className="my-2">
+            <button
+              type="button"
+              onClick={() => new Audio(questionAudios[currentQuestion]).play()}
+              aria-label="Play question audio"
+            >
+              <AudioIcon />
+            </button>
+          </div>
           <div className="text-2xl font-medium my-4 text-gray-500">
             {questions[currentQuestion].question}
           </div>
           <RadioGroup
-            options={answers}
+            options={answers.map((opt, idx) => ({
+              ...opt,
+              audio: answerAudios[idx],
+            }))}
             selected={responses[currentQuestion] || ''}
             onChange={handleChange}
           />
@@ -141,7 +227,7 @@ export default function AngerAssessment() {
             handleClick={handleNext}
             disabled={!responses[currentQuestion]}
           >
-            Next
+            {currentQuestion < questions.length - 1 ? 'Next' : 'Submit'}
           </Button>
         </div>
       </div>
