@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createAssessment } from '@/services/appwrite'
 import Progress from '@/app/components/progress'
