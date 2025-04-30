@@ -14,12 +14,24 @@ describe('Dropdown component', () => {
   })
 
   it('renders the current option label', () => {
-    render(<Dropdown options={options} onSelect={onSelect} currentOption={options[0]} />)
+    render(
+      <Dropdown
+        options={options}
+        onSelect={onSelect}
+        currentOption={options[0]}
+      />,
+    )
     expect(screen.getByRole('button')).toHaveTextContent('Option 1')
   })
 
   it('toggles the menu when button is clicked', () => {
-    render(<Dropdown options={options} onSelect={onSelect} currentOption={options[0]} />)
+    render(
+      <Dropdown
+        options={options}
+        onSelect={onSelect}
+        currentOption={options[0]}
+      />,
+    )
     const toggle = screen.getByRole('button')
     // Open menu
     fireEvent.click(toggle)
@@ -30,7 +42,13 @@ describe('Dropdown component', () => {
   })
 
   it('calls onSelect and updates label when an option is clicked', () => {
-    render(<Dropdown options={options} onSelect={onSelect} currentOption={options[0]} />)
+    render(
+      <Dropdown
+        options={options}
+        onSelect={onSelect}
+        currentOption={options[0]}
+      />,
+    )
     fireEvent.click(screen.getByRole('button'))
     const optionBtn = screen.getByText('Option 2')
     fireEvent.click(optionBtn)
@@ -41,7 +59,13 @@ describe('Dropdown component', () => {
   })
 
   it('closes the menu when clicking outside', () => {
-    render(<Dropdown options={options} onSelect={onSelect} currentOption={options[0]} />)
+    render(
+      <Dropdown
+        options={options}
+        onSelect={onSelect}
+        currentOption={options[0]}
+      />,
+    )
     fireEvent.click(screen.getByRole('button'))
     expect(screen.getByText('Option 2')).toBeInTheDocument()
     fireEvent.mouseDown(document)
@@ -50,7 +74,11 @@ describe('Dropdown component', () => {
 
   it('uses default color when no color prop is provided', () => {
     const { container } = render(
-      <Dropdown options={options} onSelect={onSelect} currentOption={options[0]} />
+      <Dropdown
+        options={options}
+        onSelect={onSelect}
+        currentOption={options[0]}
+      />,
     )
     const path = container.querySelector('path')
     expect(path).toHaveAttribute('fill', '#DD3B96')
@@ -63,7 +91,7 @@ describe('Dropdown component', () => {
         onSelect={onSelect}
         currentOption={options[0]}
         color="#123456"
-      />
+      />,
     )
     const path = container.querySelector('path')
     expect(path).toHaveAttribute('fill', '#123456')

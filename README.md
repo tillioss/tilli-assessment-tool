@@ -85,6 +85,15 @@ In the project directory, you can run:
 - Jest for unit and integration tests
 - React Testing Library for component testing
 - ESLint and Prettier for code quality and formatting
+  
+## Continuous Integration
+
+On every push or pull request to `main`, GitHub Actions runs the test suite with coverage and uploads a full HTML coverage report as an artifact.
+
+To download the coverage report:
+1. Go to the **Actions** tab of this repository.
+2. Select the latest **CI** workflow run.
+3. In the **Artifacts** section, download **coverage-report** (contains the HTML report).
 
 ## Contributing
 

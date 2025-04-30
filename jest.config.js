@@ -180,6 +180,8 @@ const config = {
   transform: {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: './tsconfig.test.json' }],
   },
+  // Configure coverage report formats
+  coverageReporters: ['json', 'text', 'lcov', 'html'],
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
