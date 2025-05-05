@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import React, { useState, useEffect } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Button from '../components/button'
 
@@ -11,6 +11,14 @@ enum Step {
 }
 
 export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <PageContent />
+    </Suspense>
+  )
+}
+
+function PageContent() {
   const [step, setStep] = useState(Step.PLAY)
   const router = useRouter()
   const searchParams = useSearchParams()

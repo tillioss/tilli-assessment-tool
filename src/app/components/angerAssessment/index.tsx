@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { createAssessment } from '@/services/appwrite'
 import Progress from '@/app/components/progress'
@@ -127,7 +127,15 @@ const questionAudios = [
 ]
 const answerAudios = [hardlyAudio, sometimesAudio, oftenAudio, dontKnowAudio]
 
-export default function AngerAssessment() {
+export default function Assessment() {
+  return (
+    <Suspense fallback={null}>
+      <AngerAssessment />
+    </Suspense>
+  )
+}
+
+function AngerAssessment() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [responses, setResponses] = useState<Record<number, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
