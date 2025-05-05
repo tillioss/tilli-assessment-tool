@@ -55,6 +55,6 @@ describe('AngerAssessment component', () => {
     }
     expect(submitSpy).toHaveBeenCalledTimes(1)
     // After submission, thank you message is displayed
-    await screen.findByText('Thank you for completing the assessment.')
+    await screen.findByText('Yay you are done!')
   })
 })

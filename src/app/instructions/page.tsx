@@ -56,7 +56,7 @@ export default function Page() {
             </ul>
           </div>
 
-          <Button handleClick={() => setStep(Step.READY)}>Start</Button>
+          <Button onClick={() => setStep(Step.READY)}>Start</Button>
         </div>
       </>
     )
@@ -72,7 +72,7 @@ export default function Page() {
           <p className="md:my-12 text-6xl my-6 text-center font-medium">
             It is the kid&apos;s turn!
           </p>
-          <Button handleClick={() => setStep(Step.INSTRUCTIONS)}>PLAY</Button>
+          <Button onClick={() => setStep(Step.INSTRUCTIONS)}>PLAY</Button>
         </div>
       </>
     )
@@ -85,15 +85,16 @@ export default function Page() {
 
     return (
       <div className="flex flex-col justify-center items-center h-[90vh] space-y-6">
-        <p className="text-primary-700 text-3xl font-semibold text-center">
-          You are ready to begin the assessment.
+        <img src="/angry.png" alt="angry face" className="w-1/2" />
+        <p className="text-4xl font-semibold text-center">
+          Think about a time when you were ANGRY
         </p>
         <Button
-          handleClick={() =>
+          onClick={() =>
             router.push(`/assessment?participantId=${participantId}`)
           }
         >
-          Begin Assessment
+          Ok
         </Button>
       </div>
     )

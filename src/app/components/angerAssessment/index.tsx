@@ -177,8 +177,21 @@ export default function AngerAssessment() {
 
   if (hasSubmitted) {
     return (
-      <div className="h-64 flex items-center justify-center text-lg">
-        Thank you for completing the assessment.
+      <div className="relative min-h-screen flex flex-col">
+        <div className="flex-1 flex flex-col justify-center items-center">
+          <p className="text-4xl text-center font-medium mb-12">
+            Yay you are done!
+          </p>
+          <img src="/checkIcon.png" alt="done icon" className="w-1/2" />
+        </div>
+
+        <div className="relative">
+          <img
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
+            src="/confetti.png"
+            alt="confetti"
+          />
+        </div>
       </div>
     )
   }
@@ -223,10 +236,7 @@ export default function AngerAssessment() {
           />
         </div>
         <div className="mt-3 text-right">
-          <Button
-            handleClick={handleNext}
-            disabled={!responses[currentQuestion]}
-          >
+          <Button onClick={handleNext} disabled={!responses[currentQuestion]}>
             {currentQuestion < questions.length - 1 ? 'Next' : 'Submit'}
           </Button>
         </div>
