@@ -19,9 +19,15 @@ export default function RootLayout({
         tabIndex={-1}
       >
         <title>Tilli</title>
-        <main className="md:h-screen">
+        <main className="min-h-screen">
           <section
-            style={{ backgroundImage: `url('/bg.png')`, backgroundSize: '80%' }}
+            className="min-h-screen relative"
+            style={{
+              backgroundImage: `url('/bg.png')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+            }}
           >
             {children}
           </section>

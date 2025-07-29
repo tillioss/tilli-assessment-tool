@@ -73,10 +73,10 @@ export default function Page() {
           </Link>
         </div>
       </div>
-      <div className="mx-auto flex flex-col items-center justify-center px-6 md:py-8 lg:py-0 text-gray-500 overflow-auto">
+      <div className="mx-auto flex flex-col items-center justify-center px-4 md:px-6 py-4 md:py-8 text-gray-500 overflow-auto min-h-screen">
         <form
           onSubmit={handleSubmit}
-          className="rounded-xl p-4 md:w-1/2 mt-4 space-y-6"
+          className="rounded-xl p-4 w-full max-w-md md:max-w-lg mt-4 space-y-4 md:space-y-6"
         >
           <p className="text-center text-base font-semibold text-gray-700">
             Please enter your details to start the assessment

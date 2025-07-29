@@ -23,14 +23,22 @@ const Home = () => {
           </Link>
         </div>
       </div>
-      <div className="absolute left-2 bottom-0 w-32 xl:w-auto">
+
+      {/* Tilli image - hidden on mobile, visible on larger screens */}
+      <div className="hidden md:block absolute left-2 bottom-0 w-32 xl:w-auto">
         <img src="/tilli.png" alt="" width={180} />
       </div>
-      <div className="justify-center items-center flex flex-col h-[90vh]">
-        <p className="text-primary-700 text-6xl font-semibold my-6 md:my-12 text-center">
+
+      {/* Mobile-friendly Tilli image */}
+      <div className="md:hidden absolute right-2 bottom-2 w-16">
+        <img src="/tilli.png" alt="" width={80} />
+      </div>
+
+      <div className="justify-center items-center flex flex-col h-[90vh] px-4">
+        <p className="text-primary-700 text-4xl md:text-6xl font-semibold my-6 md:my-12 text-center">
           Hello!
         </p>
-        <p className="md:my-12 my-6 font-medium">
+        <p className="md:my-12 my-6 font-medium text-center px-4">
           Welcome to your emotional assessment :)
         </p>
         <Link

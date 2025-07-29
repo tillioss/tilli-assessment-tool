@@ -32,19 +32,26 @@ function PageContent() {
   function Instructions() {
     return (
       <>
-        <div className="absolute left-2 bottom-0 w-32 xl:w-auto">
+        {/* Tilli image - hidden on mobile, visible on larger screens */}
+        <div className="hidden md:block absolute left-2 bottom-0 w-32 xl:w-auto">
           <img src="/tilli.png" alt="" width={180} />
         </div>
-        <div className="justify-center items-center flex flex-col h-[90vh]">
-          <h2 className="text-lg font-semibold text-gray-700">
+
+        {/* Mobile-friendly Tilli image */}
+        <div className="md:hidden absolute right-2 bottom-2 w-16">
+          <img src="/tilli.png" alt="" width={80} />
+        </div>
+
+        <div className="justify-center items-center flex flex-col h-[90vh] px-4">
+          <h2 className="text-lg font-semibold text-gray-700 text-center">
             Read the instructions carefully
           </h2>
 
-          <div className="bg-white p-6 rounded-xl text-left relative">
+          <div className="bg-white p-4 md:p-6 rounded-xl text-left relative w-full max-w-md">
             <div className="absolute top-4 right-4 text-gray-500 cursor-pointer hover:text-black">
               {/* <Volume2 size={24} /> */}
             </div>
-            <h3 className="text-xl font-semibold mb-4 text-gray-700 leading-snug">
+            <h3 className="text-lg md:text-xl font-semibold mb-4 text-gray-700 leading-snug">
               Here are the instructions
               <br />
               to the assessment
@@ -76,11 +83,18 @@ function PageContent() {
   function Play() {
     return (
       <>
-        <div className="absolute left-2 bottom-0 w-32 xl:w-auto">
+        {/* Tilli image - hidden on mobile, visible on larger screens */}
+        <div className="hidden md:block absolute left-2 bottom-0 w-32 xl:w-auto">
           <img src="/tilli.png" alt="" width={180} />
         </div>
-        <div className="justify-center items-center flex flex-col h-[90vh]">
-          <p className="md:my-12 text-6xl my-6 text-center font-medium">
+
+        {/* Mobile-friendly Tilli image */}
+        <div className="md:hidden absolute right-2 bottom-2 w-16">
+          <img src="/tilli.png" alt="" width={80} />
+        </div>
+
+        <div className="justify-center items-center flex flex-col h-[90vh] px-4">
+          <p className="md:my-12 text-4xl md:text-6xl my-6 text-center font-medium">
             It is the kid&apos;s turn!
           </p>
           <Button onClick={() => setStep(Step.INSTRUCTIONS)}>PLAY</Button>

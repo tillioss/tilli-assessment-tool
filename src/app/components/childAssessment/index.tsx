@@ -290,16 +290,20 @@ function ChildAssessment() {
   if (hasSubmitted) {
     return (
       <div className="relative min-h-screen flex flex-col">
-        <div className="flex-1 flex flex-col justify-center items-center">
-          <p className="text-4xl text-center font-medium mb-12">
+        <div className="flex-1 flex flex-col justify-center items-center px-4">
+          <p className="text-2xl md:text-4xl text-center font-medium mb-8 md:mb-12">
             Yay you are done!
           </p>
-          <img src="/checkIcon.png" alt="done icon" className="w-1/2" />
+          <img
+            src="/checkIcon.png"
+            alt="done icon"
+            className="w-2/3 md:w-1/2"
+          />
         </div>
 
         <div className="relative">
           <img
-            className="absolute bottom-0 left-1/2 transform -translate-x-1/2"
+            className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-32 md:w-auto"
             src="/confetti.png"
             alt="confetti"
           />
@@ -309,18 +313,19 @@ function ChildAssessment() {
   }
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto">
       <div className="py-4 bg-primary-500">
         <Progress current={currentQuestion} total={questions.length} />
       </div>
-      <div className="max-w-md mx-auto p-4">
-        <div className="bg-white p-4 rounded-lg">
+      <div className="w-full max-w-md mx-auto p-2 md:p-4">
+        <div className="bg-white p-3 md:p-4 rounded-lg">
           <div className="relative">
             <img
               src={`images/${questions[currentQuestion].image}`}
               width={450}
               height={400}
               alt="image"
+              className="w-full h-auto max-w-full"
             />
             <div className="absolute bottom-2 left-2">
               <button
@@ -334,7 +339,7 @@ function ChildAssessment() {
               </button>
             </div>
           </div>
-          <div className="text-2xl font-medium my-4 text-gray-500">
+          <div className="text-lg md:text-2xl font-medium my-4 text-gray-500 px-2">
             {questions[currentQuestion].question}
           </div>
           <RadioGroup
@@ -348,7 +353,7 @@ function ChildAssessment() {
             onChange={handleChange}
           />
         </div>
-        <div className="mt-3 text-right">
+        <div className="mt-3 text-right px-2">
           <Button onClick={handleNext} disabled={!responses[currentQuestion]}>
             {currentQuestion < questions.length - 1 ? 'Next' : 'Submit'}
           </Button>
