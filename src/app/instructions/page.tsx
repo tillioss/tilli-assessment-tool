@@ -7,7 +7,6 @@ import Button from '../components/button'
 enum Step {
   PLAY,
   INSTRUCTIONS,
-  READY,
 }
 
 export default function Page() {
@@ -45,7 +44,7 @@ function PageContent() {
             <div className="absolute top-4 right-4 text-gray-500 cursor-pointer hover:text-black">
               {/* <Volume2 size={24} /> */}
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-gray-700 leading-snug">
+            <h3 className="text-xl font-semibold mb-4 text-gray-700 leading-snug">
               Here are the instructions
               <br />
               to the assessment
@@ -64,7 +63,13 @@ function PageContent() {
             </ul>
           </div>
 
-          <Button onClick={() => setStep(Step.READY)}>Start</Button>
+          <Button
+            onClick={() =>
+              router.push(`/assessment?participantId=${participantId}`)
+            }
+          >
+            Start
+          </Button>
         </div>
       </>
     )
@@ -83,28 +88,6 @@ function PageContent() {
           <Button onClick={() => setStep(Step.INSTRUCTIONS)}>PLAY</Button>
         </div>
       </>
-    )
-  }
-
-  function Ready() {
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const participantId = searchParams.get('participantId')
-
-    return (
-      <div className="flex flex-col justify-center items-center h-[90vh] space-y-6">
-        <img src="/angry.png" alt="angry face" className="w-1/2" />
-        <p className="text-4xl font-semibold text-center">
-          Think about a time when you were ANGRY
-        </p>
-        <Button
-          onClick={() =>
-            router.push(`/assessment?participantId=${participantId}`)
-          }
-        >
-          Ok
-        </Button>
-      </div>
     )
   }
 
@@ -130,7 +113,6 @@ function PageContent() {
       </div>
       {step === Step.PLAY && <Play />}
       {step === Step.INSTRUCTIONS && <Instructions />}
-      {step === Step.READY && <Ready />}
     </>
   )
 }

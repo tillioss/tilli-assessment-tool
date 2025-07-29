@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
-import AngerAssessment from '@/app/components/angerAssessment'
+import ChildAssessment from '@/app/components/childAssessment'
 
 export default function Page() {
   return (
     <>
       <title>Tilli | Assessment</title>
 
-      <AngerAssessment />
+      <ChildAssessment />
     </>
   )
 }
