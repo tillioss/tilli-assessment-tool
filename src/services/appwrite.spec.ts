@@ -1,7 +1,8 @@
 import {
   ensureAnonymousSession,
-  createParticipant,
   createAssessment,
+  createStudent,
+  addParentQuestionnaire,
 } from '@/services/appwrite'
 import { Account, Databases, ID } from 'appwrite'
 
@@ -9,7 +10,7 @@ describe('appwrite service', () => {
   beforeEach(() => {
     jest.restoreAllMocks()
     process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID = 'db'
-    process.env.NEXT_PUBLIC_APPWRITE_PARTICIPANTS_COLLECTION_ID = 'participants'
+    process.env.NEXT_PUBLIC_APPWRITE_STUDENTS_COLLECTION_ID = 'students'
     process.env.NEXT_PUBLIC_APPWRITE_ASSESSMENTS_COLLECTION_ID = 'assessments'
   })
 
@@ -56,40 +57,48 @@ describe('appwrite service', () => {
     })
   })
 
-  describe('createParticipant', () => {
-    it('calls createDocument with correct parameters and returns value', async () => {
-      const data = { a: 1 }
-      const mockResult = { id: 'p1' }
+  describe('createAssessment', () => {
+    it('calls updateDocument with correct parameters and returns value', async () => {
+      const data = { b: 2 }
+      const studentId = 'student-123'
+      const mockResult = { id: 'a1' }
       const docSpy = jest
-        .spyOn(Databases.prototype, 'createDocument')
+        .spyOn(Databases.prototype, 'updateDocument')
         .mockResolvedValue(mockResult as any)
-      jest.spyOn(ID, 'unique').mockReturnValue('unique-id')
-      const result = await createParticipant(data)
-      expect(docSpy).toHaveBeenCalledWith(
-        'db',
-        'participants',
-        'unique-id',
-        data,
-      )
+      const result = await createAssessment(data, studentId)
+      expect(docSpy).toHaveBeenCalledWith('db', 'students', studentId, {
+        assessment: JSON.stringify(data),
+      })
       expect(result).toBe(mockResult)
     })
   })
 
-  describe('createAssessment', () => {
+  describe('createStudent', () => {
     it('calls createDocument with correct parameters and returns value', async () => {
-      const data = { b: 2 }
-      const mockResult = { id: 'a1' }
+      const data = { studentName: 'John', school: 'ABC School' }
+      const mockResult = { id: 'student-123' }
       const docSpy = jest
         .spyOn(Databases.prototype, 'createDocument')
         .mockResolvedValue(mockResult as any)
-      jest.spyOn(ID, 'unique').mockReturnValue('another-id')
-      const result = await createAssessment(data)
-      expect(docSpy).toHaveBeenCalledWith(
-        'db',
-        'assessments',
-        'another-id',
-        data,
-      )
+      jest.spyOn(ID, 'unique').mockReturnValue('student-123')
+      const result = await createStudent(data)
+      expect(docSpy).toHaveBeenCalledWith('db', 'students', 'student-123', data)
+      expect(result).toBe(mockResult)
+    })
+  })
+
+  describe('addParentQuestionnaire', () => {
+    it('calls updateDocument with correct parameters and returns value', async () => {
+      const data = { childName: 'Jane', parentName: 'John' }
+      const studentId = 'student-123'
+      const mockResult = { id: 'student-123' }
+      const docSpy = jest
+        .spyOn(Databases.prototype, 'updateDocument')
+        .mockResolvedValue(mockResult as any)
+      const result = await addParentQuestionnaire(data, studentId)
+      expect(docSpy).toHaveBeenCalledWith('db', 'students', studentId, {
+        parentQuestionnaire: JSON.stringify(data),
+      })
       expect(result).toBe(mockResult)
     })
   })

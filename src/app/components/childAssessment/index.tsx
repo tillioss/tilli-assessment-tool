@@ -250,23 +250,19 @@ function ChildAssessment() {
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const searchParams = useSearchParams()
-  const participantId = searchParams.get('participantId')
+  const studentId = searchParams.get('studentId')
 
   const handleNext = async () => {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1)
     } else {
-      if (!participantId) {
-        console.error('Missing participantId')
+      if (!studentId) {
+        console.error('Missing studentId')
         return
       }
       setIsSubmitting(true)
       try {
-        await createAssessment({
-          participantId,
-          responses: JSON.stringify(responses),
-          createdAt: new Date().toISOString(),
-        })
+        await createAssessment(responses, studentId)
         setHasSubmitted(true)
       } catch (error) {
         console.error('Error submitting assessment', error)

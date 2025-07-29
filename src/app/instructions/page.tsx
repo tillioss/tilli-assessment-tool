@@ -21,13 +21,13 @@ function PageContent() {
   const [step, setStep] = useState(Step.PLAY)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const participantId = searchParams.get('participantId')
+  const studentId = searchParams.get('studentId')
 
   useEffect(() => {
-    if (!participantId) {
+    if (!studentId) {
       router.replace('/login')
     }
-  }, [participantId, router])
+  }, [studentId, router])
 
   function Instructions() {
     return (
@@ -64,9 +64,7 @@ function PageContent() {
           </div>
 
           <Button
-            onClick={() =>
-              router.push(`/assessment?participantId=${participantId}`)
-            }
+            onClick={() => router.push(`/assessment?studentId=${studentId}`)}
           >
             Start
           </Button>

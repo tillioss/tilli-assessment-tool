@@ -25,26 +25,35 @@ export const ensureAnonymousSession =
     }
   }
 
-/**
- * Create a participant document in Appwrite.
- */
-export const createParticipant = async (data: Record<string, any>) => {
+export const addParentQuestionnaire = async (
+  data: Record<string, any>,
+  studentId: string,
+) => {
+  return await databases.updateDocument(
+    process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+    process.env.NEXT_PUBLIC_APPWRITE_STUDENTS_COLLECTION_ID!,
+    studentId,
+    { parentQuestionnaire: JSON.stringify(data) },
+  )
+}
+
+export const createStudent = async (data: Record<string, any>) => {
   return await databases.createDocument(
     process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-    process.env.NEXT_PUBLIC_APPWRITE_PARTICIPANTS_COLLECTION_ID!,
+    process.env.NEXT_PUBLIC_APPWRITE_STUDENTS_COLLECTION_ID!,
     ID.unique(),
     data,
   )
 }
 
-/**
- * Create an assessment document in Appwrite.
- */
-export const createAssessment = async (data: Record<string, any>) => {
-  return await databases.createDocument(
+export const createAssessment = async (
+  data: Record<string, any>,
+  studentId: string,
+) => {
+  return await databases.updateDocument(
     process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-    process.env.NEXT_PUBLIC_APPWRITE_ASSESSMENTS_COLLECTION_ID!,
-    ID.unique(),
-    data,
+    process.env.NEXT_PUBLIC_APPWRITE_STUDENTS_COLLECTION_ID!,
+    studentId,
+    { assessment: JSON.stringify(data) },
   )
 }
