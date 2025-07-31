@@ -161,25 +161,19 @@ function ParentQuestionnaire() {
               </h2>
             </div>
 
-            {/* Input Groups */}
-            {[
-              { label: "What is your child's name?", name: 'childName' },
-              { label: 'What is your name?', name: 'parentName' },
-            ].map(({ label, name }) => (
-              <div className="bg-white rounded-2xl p-4" key={name}>
-                <label className="block text-gray-700 font-semibold mb-2">
-                  {label}
-                </label>
-                <input
-                  type="text"
-                  name={name}
-                  value={formData[name as keyof typeof formData]}
-                  onChange={handleChange}
-                  placeholder="Your Answer"
-                  className="block w-full rounded-full bg-gray-200 p-2 px-4 text-gray-700 placeholder-gray-400 font-medium"
-                />
-              </div>
-            ))}
+            <div className="bg-white rounded-2xl p-4">
+              <label className="block text-gray-700 font-semibold mb-2">
+                What is your name?
+              </label>
+              <input
+                type="text"
+                name={'parentName'}
+                value={formData.parentName}
+                onChange={handleChange}
+                placeholder="Your Answer"
+                className="block w-full rounded-full bg-gray-200 p-2 px-4 text-gray-700 placeholder-gray-400 font-medium"
+              />
+            </div>
 
             {/* Select for Sex */}
             <div className="bg-white rounded-2xl p-4">
