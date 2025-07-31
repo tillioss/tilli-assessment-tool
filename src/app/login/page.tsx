@@ -78,14 +78,14 @@ export default function Page() {
           onSubmit={handleSubmit}
           className="rounded-xl p-4 w-full max-w-md md:max-w-lg mt-4 space-y-4 md:space-y-6"
         >
-          <p className="text-center text-base font-semibold text-gray-700">
-            Please enter your details to start the assessment
+          <p className="text-center text-4xl font-semibold text-primary-700">
+            Enter Details
           </p>
 
           {/* Student Name */}
           <div className="bg-white rounded-2xl p-4">
             <label className="block text-gray-700 font-semibold mb-2">
-              Student Name
+              Please enter the full name (ex: Raj Patel)
             </label>
             <input
               type="text"
@@ -174,7 +174,7 @@ export default function Page() {
               }
               className="rounded-2xl bg-primary-700 px-6 py-2 font-medium text-white hover:bg-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800"
             >
-              {isLoading ? 'Logging in...' : 'Start Assessment'}
+              {isLoading ? 'Loading...' : 'Next'}
             </button>
             {error && <p className="text-red-600 mt-2">{error}</p>}
           </div>

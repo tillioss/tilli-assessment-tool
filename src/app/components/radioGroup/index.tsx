@@ -1,5 +1,4 @@
 import React from 'react'
-import AudioIcon from '@/assets/svg/AudioIcon'
 
 interface RadioGroupProps {
   options: { label: string; value: string; audio?: string }[]
@@ -12,14 +11,30 @@ export default function RadioGroup({
   selected,
   onChange,
 }: RadioGroupProps) {
+  const handleOptionClick = (option: {
+    label: string
+    value: string
+    audio?: string
+  }) => {
+    // Play audio if available
+    if (option.audio) {
+      new Audio(option.audio).play()
+    }
+    // Select the option
+    onChange(option.value)
+  }
+
   return (
     <div className="space-y-3">
       {options.map((option) => (
         <label
           key={option.value}
-          className={`flex items-center space-x-2 cursor-pointer ${
-            selected === option.value ? 'font-semibold text-blue-700' : ''
+          className={`flex items-center space-x-2 cursor-pointer p-2 rounded ${
+            selected === option.value
+              ? 'font-semibold text-blue-700 bg-blue-50'
+              : ''
           }`}
+          onClick={() => handleOptionClick(option)}
         >
           <input
             type="radio"
@@ -29,16 +44,7 @@ export default function RadioGroup({
             onChange={() => onChange(option.value)}
             className="accent-blue-600"
           />
-          <span>{option.label}</span>
-          {option.audio && (
-            <button
-              type="button"
-              onClick={() => new Audio(option.audio!).play()}
-              aria-label="Play option audio"
-            >
-              <AudioIcon width={32} height={32} />
-            </button>
-          )}
+          <span className="flex-1">{option.label}</span>
         </label>
       ))}
     </div>

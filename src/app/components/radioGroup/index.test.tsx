@@ -25,18 +25,35 @@ describe('RadioGroup component', () => {
     expect(onChange).toHaveBeenCalledWith('a')
   })
 
-  it('renders audio buttons for options with audio and plays audio on click', async () => {
+  it('plays audio when clicking on an option with audio', async () => {
     const playMock = jest.fn()
     // @ts-ignore
     global.Audio = jest.fn().mockImplementation(() => ({ play: playMock }))
     const onChange = jest.fn()
     render(<RadioGroup options={options} selected="b" onChange={onChange} />)
-    const audioButtons = screen.getAllByRole('button', {
-      name: 'Play option audio',
-    })
-    expect(audioButtons).toHaveLength(1)
-    fireEvent.click(audioButtons[0])
+
+    // Click on the option with audio
+    const optionA = screen.getByText('Option A').closest('label')
+    fireEvent.click(optionA!)
+
     expect(global.Audio).toHaveBeenCalledWith('audioA.mp3')
     expect(playMock).toHaveBeenCalled()
+    expect(onChange).toHaveBeenCalledWith('a')
+  })
+
+  it('does not play audio when clicking on an option without audio', async () => {
+    const playMock = jest.fn()
+    // @ts-ignore
+    global.Audio = jest.fn().mockImplementation(() => ({ play: playMock }))
+    const onChange = jest.fn()
+    render(<RadioGroup options={options} selected="a" onChange={onChange} />)
+
+    // Click on the option without audio
+    const optionB = screen.getByText('Option B').closest('label')
+    fireEvent.click(optionB!)
+
+    expect(global.Audio).not.toHaveBeenCalled()
+    expect(playMock).not.toHaveBeenCalled()
+    expect(onChange).toHaveBeenCalledWith('b')
   })
 })

@@ -18,7 +18,6 @@ function ParentQuestionnaire() {
 
   const [formData, setFormData] = useState({
     // Section 1: Demographic details
-    childName: '',
     parentName: '',
     childSex: '',
     childDob: '',
@@ -300,9 +299,7 @@ function ParentQuestionnaire() {
           <div className="text-center mt-6">
             <button
               type="submit"
-              disabled={
-                !formData.childName || !formData.parentName || isLoading
-              }
+              disabled={!formData.parentName || isLoading}
               className="rounded-2xl bg-primary-700 px-6 py-2 font-medium text-white hover:bg-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-800"
             >
               {isLoading ? 'Submitting...' : 'Submit'}
