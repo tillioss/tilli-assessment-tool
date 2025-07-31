@@ -9,7 +9,7 @@ const Button = ({ children, disabled, ...props }: ButtonProps) => {
     <button
       disabled={disabled}
       className={`button m-4 w-32 h-10 ${
-        disabled ? 'bg-gray-400' : 'bg-primary-800 '
+        disabled ? 'bg-gray-400' : 'bg-primary-700 '
       }  cursor-pointer select-none rounded-full`}
       {...props}
     >

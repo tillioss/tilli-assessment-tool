@@ -72,7 +72,7 @@ import q3Audio from '@/assets/audios/9. Student Survey_Question 3.mp3'
 import AudioIcon from '@/assets/svg/AudioIcon'
 import { createAssessment } from '@/services/appwrite'
 import { useSearchParams } from 'next/navigation'
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 
 const questions = [
   {
@@ -248,9 +248,29 @@ function ChildAssessment() {
   const [responses, setResponses] = useState<Record<number, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [showFeedback, setShowFeedback] = useState(false)
+  const [feedbackResponse, setFeedbackResponse] = useState<string>('')
+  const [showThankYou, setShowThankYou] = useState(false)
 
   const searchParams = useSearchParams()
   const studentId = searchParams.get('studentId')
+
+  // Preload images
+  useEffect(() => {
+    const preloadImages = () => {
+      questions.forEach((question) => {
+        const img = new Image()
+        img.src = `/images/${question.image}`
+      })
+    }
+    preloadImages()
+  }, [])
+
+  // Reset image loaded state when question changes
+  useEffect(() => {
+    setImageLoaded(false)
+  }, [currentQuestion])
 
   const handleNext = async () => {
     if (currentQuestion < questions.length - 1) {
@@ -264,6 +284,7 @@ function ChildAssessment() {
       try {
         await createAssessment(responses, studentId)
         setHasSubmitted(true)
+        setShowFeedback(true)
       } catch (error) {
         console.error('Error submitting assessment', error)
       } finally {
@@ -279,10 +300,64 @@ function ChildAssessment() {
     })
   }
 
+  const handleImageLoad = () => {
+    setImageLoaded(true)
+  }
+
+  const handleFeedbackResponse = (response: string) => {
+    setFeedbackResponse(response)
+    setShowThankYou(true)
+  }
+
+  const handleBackToHome = () => {
+    window.location.href = '/'
+  }
+
   if (isSubmitting) {
     return (
       <div className="h-64 flex items-center justify-center text-lg">
         Submitting...
+      </div>
+    )
+  }
+
+  if (showThankYou) {
+    return (
+      <div className="relative min-h-screen flex flex-col">
+        <div className="flex-1 flex flex-col justify-center items-center px-4">
+          <div className="text-6xl font-semibold text-gray-700 mb-8 text-center">
+            Thank you for playing!
+          </div>
+          <Button onClick={handleBackToHome}>Back to Home</Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (showFeedback) {
+    return (
+      <div className="w-full max-w-md mx-auto">
+        <div className="py-4 bg-primary-500">
+          <div className="text-center text-white font-medium">
+            tilli Assessment
+          </div>
+        </div>
+        <div className="w-full max-w-md mx-auto p-2 md:p-4 flex flex-col items-center justify-center min-h-screen">
+          <div className="text-6xl font-semibold text-gray-700 mb-8 text-center">
+            Did you have fun doing this?
+          </div>
+          <div className="space-y-4 mb-8">
+            <Button onClick={() => handleFeedbackResponse('yes')}>Yes</Button>
+            <Button onClick={() => handleFeedbackResponse('no')}>No</Button>
+          </div>
+          <div className="flex justify-center">
+            <img
+              src="/finished.png"
+              alt="happy child"
+              className="w-96 h-auto absolute bottom-0 left-1/2 transform -translate-x-1/2"
+            />
+          </div>
+        </div>
       </div>
     )
   }
@@ -320,12 +395,21 @@ function ChildAssessment() {
       <div className="w-full max-w-md mx-auto p-2 md:p-4">
         <div className="bg-white p-3 md:p-4 rounded-lg">
           <div className="relative">
+            {!imageLoaded && (
+              <div className="w-full h-64 bg-gray-200 animate-pulse rounded flex items-center justify-center">
+                <div className="text-gray-500">Loading image...</div>
+              </div>
+            )}
             <img
-              src={`images/${questions[currentQuestion].image}`}
+              src={`/images/${questions[currentQuestion].image}`}
               width={450}
               height={400}
               alt="image"
-              className="w-full h-auto max-w-full"
+              className={`w-full h-auto max-w-full transition-opacity duration-300 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              onLoad={handleImageLoad}
+              style={{ display: imageLoaded ? 'block' : 'none' }}
             />
             <div className="absolute bottom-2 left-2">
               <button
