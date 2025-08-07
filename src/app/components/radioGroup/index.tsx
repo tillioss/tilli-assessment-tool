@@ -41,7 +41,6 @@ export default function RadioGroup({
             name="mcq"
             value={option.value}
             checked={selected === option.value}
-            onChange={() => onChange(option.value)}
             className="accent-blue-600"
           />
           <span className="flex-1">{option.label}</span>

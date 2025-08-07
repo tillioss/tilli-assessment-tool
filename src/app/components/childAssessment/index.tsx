@@ -72,7 +72,7 @@ import q3Audio from '@/assets/audios/9. Student Survey_Question 3.mp3'
 import AudioIcon from '@/assets/svg/AudioIcon'
 import { createAssessment } from '@/services/appwrite'
 import { useSearchParams } from 'next/navigation'
-import React, { Suspense, useState, useEffect } from 'react'
+import React, { Suspense, useState } from 'react'
 
 const questions = [
   {
@@ -203,7 +203,7 @@ const questions = [
       q11opt2Audio,
       q11opt3Audio,
       q11opt4Audio,
-      dontKnowAudio,
+      q11opt5Audio,
     ],
     answerOptions: [
       { label: 'Drawing or art', value: '1' },
@@ -222,7 +222,7 @@ const questions = [
       q12opt2Audio,
       q12opt3Audio,
       q12opt4Audio,
-      dontKnowAudio,
+      q12opt5Audio,
     ],
     answerOptions: [
       { label: 'Reading or writing', value: '1' },
@@ -248,29 +248,12 @@ function ChildAssessment() {
   const [responses, setResponses] = useState<Record<number, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [hasSubmitted, setHasSubmitted] = useState(false)
-  const [imageLoaded, setImageLoaded] = useState(false)
   const [showFeedback, setShowFeedback] = useState(false)
   const [feedbackResponse, setFeedbackResponse] = useState<string>('')
   const [showThankYou, setShowThankYou] = useState(false)
 
   const searchParams = useSearchParams()
   const studentId = searchParams.get('studentId')
-
-  // Preload images
-  useEffect(() => {
-    const preloadImages = () => {
-      questions.forEach((question) => {
-        const img = new Image()
-        img.src = `/images/${question.image}`
-      })
-    }
-    preloadImages()
-  }, [])
-
-  // Reset image loaded state when question changes
-  useEffect(() => {
-    setImageLoaded(false)
-  }, [currentQuestion])
 
   const handleNext = async () => {
     if (currentQuestion < questions.length - 1) {
@@ -298,10 +281,6 @@ function ChildAssessment() {
       ...responses,
       [currentQuestion]: value,
     })
-  }
-
-  const handleImageLoad = () => {
-    setImageLoaded(true)
   }
 
   const handleFeedbackResponse = (response: string) => {
@@ -354,7 +333,7 @@ function ChildAssessment() {
             <img
               src="/finished.png"
               alt="happy child"
-              className="w-96 h-auto absolute bottom-0 left-1/2 transform -translate-x-1/2"
+              className="w-64 h-auto absolute bottom-0 left-1/2 transform -translate-x-3/4"
             />
           </div>
         </div>
@@ -395,21 +374,12 @@ function ChildAssessment() {
       <div className="w-full max-w-md mx-auto p-2 md:p-4">
         <div className="bg-white p-3 md:p-4 rounded-lg">
           <div className="relative">
-            {!imageLoaded && (
-              <div className="w-full h-64 bg-gray-200 animate-pulse rounded flex items-center justify-center">
-                <div className="text-gray-500">Loading image...</div>
-              </div>
-            )}
             <img
               src={`/images/${questions[currentQuestion].image}`}
               width={450}
               height={400}
               alt="image"
-              className={`w-full h-auto max-w-full transition-opacity duration-300 ${
-                imageLoaded ? 'opacity-100' : 'opacity-0'
-              }`}
-              onLoad={handleImageLoad}
-              style={{ display: imageLoaded ? 'block' : 'none' }}
+              className="w-full h-auto max-w-full transition-opacity duration-300"
             />
             <div className="absolute bottom-2 left-2">
               <button
