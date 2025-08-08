@@ -4,11 +4,17 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ensureAnonymousSession, createStudent } from '@/services/appwrite'
 
+const schools = ['Avalon Heights, Mumbai']
+
+const grades = ['Grade 1']
+
+const sections = ['A', 'B', 'C']
+
 export default function Page() {
   const [formData, setFormData] = useState({
     studentName: '',
-    school: '',
-    grade: '',
+    school: schools[0],
+    grade: grades[0],
     section: '',
   })
 
@@ -40,27 +46,6 @@ export default function Page() {
     }
   }
 
-  const schools = [
-    'ABC Public School',
-    'XYZ International School',
-    'Sunshine Elementary',
-    'Bright Future Academy',
-    'Learning Tree School',
-  ]
-
-  const grades = [
-    'Grade 1',
-    'Grade 2',
-    'Grade 3',
-    'Grade 4',
-    'Grade 5',
-    'Grade 6',
-    'Grade 7',
-    'Grade 8',
-  ]
-
-  const sections = ['A', 'B', 'C', 'D', 'E']
-
   return (
     <section>
       <title>Tilli Assessment | Sign Up</title>
@@ -85,7 +70,7 @@ export default function Page() {
           {/* Student Name */}
           <div className="bg-white rounded-2xl p-4">
             <label className="block text-gray-700 font-semibold mb-2">
-              Please enter the full name (ex: Raj Patel)
+              Please enter the child&apos;s full name (ex: Raj Patel)
             </label>
             <input
               type="text"
@@ -110,7 +95,9 @@ export default function Page() {
               className="block w-full rounded-full bg-gray-200 p-2 px-4 text-gray-700 font-medium"
               required
             >
-              <option value="">Select School</option>
+              <option value="" disabled>
+                Select School
+              </option>
               {schools.map((school) => (
                 <option key={school} value={school}>
                   {school}
@@ -131,7 +118,9 @@ export default function Page() {
               className="block w-full rounded-full bg-gray-200 p-2 px-4 text-gray-700 font-medium"
               required
             >
-              <option value="">Select Grade</option>
+              <option value="" disabled>
+                Select Grade
+              </option>
               {grades.map((grade) => (
                 <option key={grade} value={grade}>
                   {grade}
@@ -152,7 +141,9 @@ export default function Page() {
               className="block w-full rounded-full bg-gray-200 p-2 px-4 text-gray-700 font-medium"
               required
             >
-              <option value="">Select Section</option>
+              <option value="" disabled>
+                Select Section
+              </option>
               {sections.map((section) => (
                 <option key={section} value={section}>
                   {section}
